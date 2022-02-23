@@ -33,6 +33,7 @@
 - bring extra mask
 
 - bring clarinet
+    - bring reeds
 - bring recorder
 
 - bring some cash
