@@ -56,15 +56,17 @@ main:
 	# encode_text test for part E
 	# The outcome of the procedure is here
 	# immediately used by display_message
-	 la $a0, message01
-	 la $a1, buffer01
-	 jal encode_text
-	# buffer01 works for chars but 0xff becomes -1 ================= WHY?
-	 la $a0, buffer01
-	 jal display_message
-	
+	la $a0, message01
+	la $a1, buffer01
+	jal encode_text
+	la $a0, buffer01
+	lbu $s0 0($a0)	
+	lbu $s1 1($a0)	
+	lbu $s2	2($a0)
+	jal display_message
+
 	# Proper exit from the program.
-	addi $v0, $zero, 10
+	addi $v0, $zero, 10 # first 3 letters
 	syscall
 
 	
@@ -143,17 +145,23 @@ flash_one_symbol:
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
 
+	move $t3, $zero
+	move $t4, $zero
+	
 	bne $a0, 0xff, flash_one_symbol_else # does not equal space between words
+
 	jal delay_long
 	jal delay_long
 	jal delay_long
-	beq $zero, $zero, flash_one_symbol_end
+	b flash_one_symbol_end
 
 flash_one_symbol_else:
 	srl $t3, $a0, 4
 	
-	addi $t0, $zero, 4
+	add $t0, $zero, $t3
 	andi $t4, $a0, 15
+
+	move $t6, $zero
 
 # reverse low nybble
 loop1:
@@ -174,7 +182,7 @@ loop2:
 	andi $t5, $t6, 1
 	beq $t5, $zero, else_dot
 	jal delay_long
-	beq $zero, $zero, after_segment_on	
+	b after_segment_on	
 
 else_dot:
 	jal delay_short
@@ -185,6 +193,7 @@ after_segment_on:
 	addi $t3, $t3, -1
 	beq $t3, $zero, flash_one_symbol_end 
 	jal delay_long
+	srl $t6, $t6, 1
 	bne $t3, $zero, loop2
 
 flash_one_symbol_end:
@@ -204,7 +213,7 @@ display_message:
 	la $a1, ($a0) # set content of $a0 to $a1
 
 display_message_loop:
-	lb $t3, 0($a1) # load byte that $a1 points to
+	lbu $t3, 0($a1) # load byte that $a1 points to
 	
 	beq $t3, $zero, display_message_end # branch if byte is 0
 
@@ -241,13 +250,13 @@ char_to_code_increment_pointer:
 	addi $a1, $a1, 1	
 
 char_to_code_loop: 
-	lb $t3, 0($a1)
+	lbu $t3, 0($a1)
 	bne $a0, $t3, char_to_code_increment_pointer
 
 morse_code_loop:
 
 	addi $a1, $a1, 1
-	lb $t3, 0($a1)
+	lbu $t3, 0($a1)
 
 	beq $t3, $zero, char_to_code_loop_end
 	addi $t5, $t5, 1 # length of sequence (high nybble)
@@ -279,17 +288,14 @@ encode_text:
 	la $a3, ($a1)
 
 encode_text_loop:	
-	lb $t3, ($a2)
+	lbu $t3, ($a2)
 
 	beq $t3, $zero, encode_text_end
-	addi $t7, $t7, 1
 
 	add $a0, $zero, $t3
 	jal char_to_code
 	add $t6, $zero, $v0
-	#===================== 0xff becomes -1 ============================ WHY?
 	sb $v0, ($a3)
-
 
 	addi $a2, $a2, 1
 	addi $a3, $a3, 1
