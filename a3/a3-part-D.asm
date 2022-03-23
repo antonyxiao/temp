@@ -57,6 +57,10 @@ main:
 
 check_for_event:
 	# get a0 and a1 from constant
+	la $a0, BOX_COLUMN
+	la $a1, BOX_ROW
+	lb $a0, ($a0)
+	lb $a1, ($a1)
 	jal draw_bitmap_box
 
 	la $t3, KEYBOARD_EVENT
@@ -83,23 +87,62 @@ not_space:
 	la $t2, BOX_ROW
 	lb $t5, ($t2)
 	subi $t5, $t5, 1
-	add $a1, $zero, $t5
 	sb $t5, 0($t2)
 
-	addi $a0, $zero, 1
-	addi $a1, $zero, 1
 	add $a2, $zero, $t6
 
 	b other
 not_letter_a:
 	bne $t7, LETTER_d, not_letter_d
+	
+	add $t6, $zero, $a2
+	
+	addi $a2, $zero, 0x00000000
 
+	jal draw_bitmap_box	
+
+	la $t2, BOX_ROW
+	lb $t5, ($t2)
+	add $t5, $t5, 1
+	sb $t5, 0($t2)
+
+	add $a2, $zero, $t6
+
+	b other	
 not_letter_d:
 	bne $t7, LETTER_w, not_letter_w
 
+	add $t6, $zero, $a2
+	
+	addi $a2, $zero, 0x00000000
+
+	jal draw_bitmap_box	
+
+	la $t2, BOX_COLUMN
+	lb $t5, ($t2)
+	subi $t5, $t5, 1
+	sb $t5, 0($t2)
+
+	add $a2, $zero, $t6
+
+	b other
 not_letter_w:
 	bne $t7, LETTER_s, other
 
+	add $t6, $zero, $a2
+	
+	addi $a2, $zero, 0x00000000
+
+	jal draw_bitmap_box	
+
+	la $t2, BOX_COLUMN
+	lb $t5, ($t2)
+	addi $t5, $t5, 1
+	sb $t5, 0($t2)
+
+	add $a2, $zero, $t6
+
+	b other
 other:
 
 	la $t3, KEYBOARD_EVENT
