@@ -63,11 +63,10 @@ check_for_event:
 	lb $a1, ($a1)
 	jal draw_bitmap_box
 
-	la $t3, KEYBOARD_EVENT
-	lb $t3, 0($t3)
+	lb $t3, KEYBOARD_EVENT
 	beq $t3, $zero, no_new_event
 
-	bne $t7, SPACE, not_space
+	bne $t3, SPACE, not_space
 
 	bne $a2, BOX_COLOUR, change_color
 	addi $a2, $zero, 0x00950191
@@ -76,10 +75,14 @@ change_color:
 	addi $a2, $zero, BOX_COLOUR
 	b other
 not_space:
-	bne $t7, LETTER_a, not_letter_a
+	bne $t3, LETTER_a, not_letter_a
 	
 	add $t6, $zero, $a2
 	
+	la $a0, BOX_COLUMN
+	la $a1, BOX_ROW
+	lb $a0, ($a0)
+	lb $a1, ($a1)
 	addi $a2, $zero, 0x00000000
 
 	jal draw_bitmap_box	
@@ -93,10 +96,14 @@ not_space:
 
 	b other
 not_letter_a:
-	bne $t7, LETTER_d, not_letter_d
+	bne $t3, LETTER_d, not_letter_d
 	
 	add $t6, $zero, $a2
 	
+	la $a0, BOX_COLUMN
+	la $a1, BOX_ROW
+	lb $a0, ($a0)
+	lb $a1, ($a1)
 	addi $a2, $zero, 0x00000000
 
 	jal draw_bitmap_box	
@@ -110,10 +117,14 @@ not_letter_a:
 
 	b other	
 not_letter_d:
-	bne $t7, LETTER_w, not_letter_w
+	bne $t3, LETTER_w, not_letter_w
 
 	add $t6, $zero, $a2
-	
+
+	la $a0, BOX_COLUMN
+	la $a1, BOX_ROW
+	lb $a0, ($a0)
+	lb $a1, ($a1)
 	addi $a2, $zero, 0x00000000
 
 	jal draw_bitmap_box	
@@ -127,10 +138,14 @@ not_letter_d:
 
 	b other
 not_letter_w:
-	bne $t7, LETTER_s, other
+	bne $t3, LETTER_s, other
 
 	add $t6, $zero, $a2
-	
+
+	la $a0, BOX_COLUMN
+	la $a1, BOX_ROW
+	lb $a0, ($a0)
+	lb $a1, ($a1)
 	addi $a2, $zero, 0x00000000
 
 	jal draw_bitmap_box	
@@ -145,9 +160,7 @@ not_letter_w:
 	b other
 other:
 
-	la $t3, KEYBOARD_EVENT
-	move $t4, $zero
-	sb $t4, 0($t3)
+	sw $zero, KEYBOARD_EVENT
 no_new_event:
 	la $s0, KEYBOARD_EVENT_PENDING
 	lw $s1, 0($s0)
@@ -219,24 +232,17 @@ __kernel_entry:
 
 __is_exception:
 	# a placeholder for handling some exceptions if necessary
-	beq $zero, $zero, __exit_exception
+	b __exit_exception
 	
 __is_interrupt:
 	andi $k1, $k0, 0x0100	# examine bit 8
 	bne $k1, $zero, __is_kb_interrupt	 # if bit 8 set, then we have a keyboard interrupt.
-	beq $zero, $zero, __exit_exception	# otherwise, we return exit kernel
+	b __exit_exception	# otherwise, we return exit kernel
 	
 __is_kb_interrupt:
-	la $k0, 0xffff0004
-	lb $t7, 0($k0)
+	lw $k0, 0xffff0004
+	sw $k0, KEYBOARD_EVENT
 
-	la $t0, KEYBOARD_EVENT
-	addi $t1, $zero, 1
-	sb $t1, 0($t0)
-
-	beq $zero, $zero, __exit_exception	# Kept here in case we add more handlers.
-	
-	
 __exit_exception:
 	eret
 

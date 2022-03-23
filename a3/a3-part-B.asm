@@ -28,40 +28,37 @@ main:
 	sb $s1, 0($s0)
 
 check_for_event:
-	la $t2, KEYBOARD_EVENT
-	lb $t2, 0($t2)
+	lw $t2, KEYBOARD_EVENT
 	beq $t2, $zero, no_new_event
 
-	bne $t7, LETTER_space, not_space
+	bne $t2, LETTER_space, not_space
 	addi $t4, $zero, 0x1
 	sb $t4, KEYBOARD_EVENT_PENDING
 not_space:
 	la $t5, KEYBOARD_COUNTS
 	
-	bne $t7, LETTER_a, not_letter_a
+	bne $t2, LETTER_a, not_letter_a
 	lb $t6, 0($t5)
 	addi $t6, $t6, 1
 	sb $t6, 0($t5)
 not_letter_a:
-	bne $t7, LETTER_b, not_letter_b
+	bne $t2, LETTER_b, not_letter_b
 	lb $t6, 4($t5)
 	addi $t6, $t6, 1
 	sb $t6, 4($t5)
 not_letter_b:
-	bne $t7, LETTER_c, not_letter_c
+	bne $t2, LETTER_c, not_letter_c
 	lb $t6, 8($t5)
 	addi $t6, $t6, 1
 	sb $t6, 8($t5)
 not_letter_c:
-	bne $t7, LETTER_D, other
+	bne $t2, LETTER_D, other
 	lb $t6, 12($t5)
 	addi $t6, $t6, 1
 	sb $t6, 12($t5)
 
 other:
-	la $t2, KEYBOARD_EVENT
-	move $t3, $zero
-	sb $t3, 0($t2)
+	sb $zero, KEYBOARD_EVENT
 no_new_event:
 	la $s0, KEYBOARD_EVENT_PENDING
 	lw $s1, 0($s0)
@@ -107,23 +104,17 @@ __kernel_entry:
 
 __is_exception:
 	# a placeholder for handling some exceptions if necessary
-	beq $zero, $zero, __exit_exception
+	b __exit_exception
 	
 __is_interrupt:
 	andi $k1, $k0, 0x0100	# examine bit 8
 	bne $k1, $zero, __is_kb_interrupt	 # if bit 8 set, then we have a keyboard interrupt.
-	beq $zero, $zero, __exit_exception	# otherwise, we return exit kernel
+	b __exit_exception	# otherwise, we return exit kernel
 	
 __is_kb_interrupt:
-	la $k0, 0xffff0004
-	lb $t7, 0($k0)
-
-	la $t0, KEYBOARD_EVENT
-	addi $t1, $zero, 1
-	sb $t1, 0($t0)
-
-	beq $zero, $zero, __exit_exception	# Kept here in case we add more handlers.
-
+	lw $k0, 0xffff0004
+	sw $k0, KEYBOARD_EVENT
+	
 __exit_exception:
 	eret
 	
