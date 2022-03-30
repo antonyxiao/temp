@@ -25,11 +25,9 @@ c complementary is g
 g complementary c and then
 u complementary is a
 
-so our RNA dependent RNA polymerase will hold the positive sense use the nucleotide that's
-complementary paired with that now malnupiravir though is the interesting guy
-imagine 
+so our RNA dependent RNA polymerase will hold the positive sense use the nucleotide that's complementary paired with that now malnupiravir. 
 
-it is like a mimic of these nucleotides it's a nucleoside analog a ribonucleoside analog and what i really want you to remember is it can act like c or it can act like u at any point in time so let's pretend for a second here that this was the original sequence of the
+imagine it is like a mimic of these nucleotides it's a nucleoside analog a ribonucleoside analog and what i really want you to remember is it can act like c or it can act like u at any point in time so let's pretend for a second here that this was the original sequence of the
 viral RNA of that SARS-CoV-2 virus gets in the cell technically a should go with
 you but malnutritive can act like you and so it'll complementary base with
 that on this negative sense RNA which is going to be the new strand of RNA that we're trying to make
