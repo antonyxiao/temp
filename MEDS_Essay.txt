@@ -14,19 +14,22 @@ there's many different types of SARS-CoV-2 variants
 the alpha variant the delta variant which is the one that was the variant of concern the big big one
 as well as the gamma and the omicron variant 
 
-what we know about the SARS-CoV-2 virus is that particularly utilizes the spike protein to bind to the ace2 receptors on different tissue cells, such as the alveolar cells of the lungs, once it hits the cell and binds with those receptors it uses the receptors to shuttle the virus into the cell 
+what we know about the SARS-CoV-2 virus is that particularly utilizes the spike protein to bind to the ace2 receptors on different tissue cells, such as the alveolar cells of the lungs, once it reaches the cell and binds with the receptors, it uses the receptors to shuttle the virus into the cell 
 
-when the virus gets inside of the cell, it releases its single-stranded RNA into the cell. Once it's inside of the cell the positive sense single stranded RNA gets worked on by the RNA-dependent RNA polymerase (RdRp), the enzyme works to be able to synthesize more RNA
-molecules but it has to utilize the positive sense RNA kind of as a template strand and
+when the virus is inside the cell, it releases its single-stranded RNA into the cell. Once it's inside of the cell the positive sense single stranded RNA gets worked on by the RNA-dependent RNA polymerase (RdRp), the enzyme works to be able to synthesize more RNA
+molecules but it must use the positive sense RNA as a template strand and then it takes the nucleotides in the cytoplsm of the host cell and add on the complementary base to it.
 
-then it takes all these nucleotides that are present within the cell the host cell and add on the
-complementary base to that so for example we know that RNA a complementary
-is u c complementary is g g complementary c and then u
-complementary is a so our independent RNA polymerase will hold the positive sense use the nucleotide that's
+so for example we know that RNA 
+a complementary is u
+c complementary is g
+g complementary c and then
+u complementary is a
+
+so our RNA dependent RNA polymerase will hold the positive sense use the nucleotide that's
 complementary paired with that now malnupiravir though is the interesting guy
-imagine it like a mimic of these nucleotides it's a nucleoside analog a
-ribonucleoside analog and what i really want you to remember is it can act like c or it can act like u at any point in
-time so let's pretend for a second here that this was the original sequence of the
+imagine 
+
+it is like a mimic of these nucleotides it's a nucleoside analog a ribonucleoside analog and what i really want you to remember is it can act like c or it can act like u at any point in time so let's pretend for a second here that this was the original sequence of the
 viral RNA of that SARS-CoV-2 virus gets in the cell technically a should go with
 you but malnutritive can act like you and so it'll complementary base with
 that on this negative sense RNA which is going to be the new strand of RNA that we're trying to make
